@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    .is-selected {
+      background-color: lightgray; 
+    }
+    .is-required {
+      color: red; 
+    }
+  </style>
+</head>
+<body>
+  <div class="container" id="app">
+    <h1>{{ title }}</h1>
+    <hr/>
+    <div class="container">
+    <li v-bind:id="enTitle" :class="{ 'is-selected': checked }">
+      <label for="checkMuseum">전시 선택</label><input type="checkbox" id="checkbox" value="checkMuseum" v-model="checked">
+      
+    <h3><b>{{ koTitle }}</b></h3>
+    <p> <모네 인사이드> 는 빛의 화가 <b>클로드 모네</b>가 남긴 소중한
+      명작들을 현대적 감각으로 재해석해 음악과 함께 감상하는 미디어아트 전시입니다. </p>
+      <hr/>
+    <p>{{ artMuseum }}</p>
+    <a :href="museumURL">전시장 바로가기</a>
+    
+    <hr/>
+    <p>입장권 구매하기</p>
+    <p>가격 : {{price}}</p>
+    <p :class="{ 'is-required': totalNum <= 0}">인원 수 : {{ totalNum }}명 <button @click="decreaseNum" >-</button><button @click="increaseNum">+</button> </p>
+    
+    <hr/>
+  </li>
+</div>
+    <p>총 입장료 : {{ totalNum *1000 }}원</p>
+    
+  </div>
+
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  <script>
+    const { createApp, ref } = Vue
+
+    const app = createApp({
+      setup() {
+        const checked = ref(false)
+        const title = ref('다양한 전시 정보')
+        const koTitle = ref('모네 인사이드')
+        const artMuseum = ref('예술의 전당')
+        const museumURL = ref('https://www.sac.or.kr/')
+        const enTitle = ref('monet-inside')
+        const totalNum = ref(0)
+        const price = ref(1000)
+
+        const decreaseNum = () => {
+          if (totalNum.value > 0) {
+            totalNum.value--
+          }
+        }
+
+        const increaseNum = () => {
+          totalNum.value++
+        }
+      
+      
+        return {
+          title
+          , checked      
+          , koTitle
+          , artMuseum
+          , museumURL
+          , enTitle
+          , totalNum
+          , price
+          , decreaseNum
+          , increaseNum
+        }
+      }
+    })
+
+    // const info = ref({
+    //   koTitle : '모네'
+    // })
+
+    app.mount('#app')
+  </script>
+</body>
+</html>
